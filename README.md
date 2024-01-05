@@ -1,3 +1,7 @@
+## Add stm32f411cue6 BlackPill support to CSRF library  
+
+Original project in https://github.com/CapnBry/CRServoF
+
 ## CRServoF - The CSRF serial protocol to PWM servo converter
 
 I wanted to create a small project to mess around with PWM servo output for ExpressLRS, and thought this might be of use for other people.
