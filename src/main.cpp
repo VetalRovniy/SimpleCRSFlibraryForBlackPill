@@ -33,10 +33,13 @@ constexpr PinName OUTPUT_PINS[NUM_OUTPUTS] = { OUTPUT_PIN_MAP };
 // Local Variables
 #if defined(ARDUINO_ARCH_STM32)
 static HardwareSerial CrsfSerialStream(USART_INPUT);
+static HardwareSerial CrsfSerialOutputStream(USART_OUTPUT);
+
 #elif defined(TARGET_RASPBERRY_PI_PICO)
 static UART CrsfSerialStream(DPIN_CRSF_TX, DPIN_CRSF_RX);
 #endif
-static CrsfSerial crsf(CrsfSerialStream);
+static CrsfSerial crsf(CrsfSerialStream, CrsfSerialOutputStream);
+
 static int g_OutputsUs[NUM_OUTPUTS];
 #if defined(TARGET_RASPBERRY_PI_PICO)
 #include <Servo.h>

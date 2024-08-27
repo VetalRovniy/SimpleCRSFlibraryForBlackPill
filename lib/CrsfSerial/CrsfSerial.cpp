@@ -1,37 +1,7 @@
 #include "CrsfSerial.h"
 
-// static void hexdump(void *p, size_t len)
-// {
-//     char *data = (char *)p;
-//     while (len > 0)
-//     {
-//         uint8_t linepos = 0;
-//         char* linestart = data;
-//         // Binary part
-//         while (len > 0 && linepos < 16)
-//         {
-//             if (*data < 0x0f)
-//             Serial.write('0');
-//             Serial.print(*data, HEX);
-//             Serial.write(' ');
-//             ++data;
-//             ++linepos;
-//             --len;
-//         }
-
-//         // Spacer to align last line
-//         for (uint8_t i = linepos; i < 16; ++i)
-//             Serial.print("   ");
-
-//         // ASCII part
-//         for (uint8_t i = 0; i < linepos; ++i)
-//             Serial.write((linestart[i] < ' ') ? '.' : linestart[i]);
-//         Serial.println();
-//     }
-// }
-
-CrsfSerial::CrsfSerial(HardwareSerial &port, uint32_t baud) :
-    _port(port), _crc(0xd5), _baud(baud),
+CrsfSerial::CrsfSerial(HardwareSerial &port, HardwareSerial &port_out, uint32_t baud) :
+    _port(port), _port_out(port_out), _crc(0xd5), _baud(baud),
     _lastReceive(0), _lastChannelsPacket(0), _linkIsUp(false),
     _passthroughBaud(0)
 {}
@@ -39,9 +9,15 @@ CrsfSerial::CrsfSerial(HardwareSerial &port, uint32_t baud) :
 void CrsfSerial::begin(uint32_t baud)
 {
     if (baud != 0)
+    {
         _port.begin(baud);
+        _port_out.begin(baud);
+    }
     else
+    {
         _port.begin(_baud);
+        _port_out.begin(_baud);
+    }
 }
 
 // Call from main loop to update
@@ -56,6 +32,9 @@ void CrsfSerial::handleSerialIn()
     {
         uint8_t b = _port.read();
         _lastReceive = millis();
+
+        //_port_out.write(b);
+        _port.write(b);
 
         if (getPassthroughMode())
         {
@@ -299,5 +278,6 @@ void CrsfSerial::setPassthroughMode(bool val, uint32_t passthroughBaud)
 
     // Can only get here if baud is changing, close and reopen the port
     _port.end(); // assumes flush()
+    //_port_out.end();
     begin(_passthroughBaud);
 }

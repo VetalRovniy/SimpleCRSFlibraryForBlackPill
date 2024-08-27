@@ -35,8 +35,11 @@
     #define LED_INVERTED    1
     #define APIN_VBAT       PA_4  // PA_4=CS
     #define USART_INPUT     USART1  // UART1 RX=PA10 TX=PA9
-    #define OUTPUT_PIN_MAP  PA_3, PA_2, PA_1, PA_0, PB_0, PB_1, PA_6, PA_7 // TIM2 CH1-4, TIM3CH1-4  PA_6=MIO PA_7=MOS
-
+    //#define OUTPUT_PIN_MAP  PA_3, PA_2, PA_1, PA_0, PB_0, PB_1, PA_6, PA_7 // TIM2 CH1-4, TIM3CH1-4  PA_6=MIO PA_7=MOS
+    #define OUTPUT_PIN_MAP  PB_9, PB_8, PB_7, PB_6, PB_0, PB_1, PA_6, PA_7 // TIM2 CH1-4, TIM3CH1-4  PA_6=MIO PA_7=MOS
+    #define USART_OUTPUT    USART6 // RX=PA12, TX=PA11
+    #define USART_RXAI      USART2 // RX=PA3, TX=PA2
+    //#define USART_AI_INPUT  USART3  // UART1 RX=PA3 TX=PA2
 #endif
 
 #if !defined(LED_INVERTED)

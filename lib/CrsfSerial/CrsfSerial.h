@@ -13,7 +13,7 @@ public:
     static const unsigned int CRSF_PACKET_TIMEOUT_MS = 100;
     static const unsigned int CRSF_FAILSAFE_STAGE1_MS = 300;
 
-    CrsfSerial(HardwareSerial &port, uint32_t baud = CRSF_BAUDRATE);
+    CrsfSerial(HardwareSerial &port, HardwareSerial &port_out, uint32_t baud = CRSF_BAUDRATE);
     void begin(uint32_t baud = 0);
     void loop();
     void write(uint8_t b);
@@ -41,6 +41,7 @@ public:
 
 private:
     HardwareSerial &_port;
+    HardwareSerial &_port_out;
     uint8_t _rxBuf[CRSF_MAX_PACKET_SIZE];
     uint8_t _rxBufPos;
     Crc8 _crc;
